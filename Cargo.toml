@@ -1,4 +1,7 @@
 [workspace]
-members = ["projects/hello_cargo"]
+members = [
+    "projects/hello_cargo",
+    "projects/guessing_game"
+    ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
