@@ -138,7 +138,7 @@ fn count_order(count: usize) -> String {
     orders[count].to_string()
 }
 
-fn carol_verse(count: usize, verses: &[&str], previous_verse: &String) -> String {
+fn carol_verse(count: usize, verses: &[&str], previous_verse: &str) -> String {
     let verse = verses[count];
     let counted = if count == 0 {
         "a".to_string()
