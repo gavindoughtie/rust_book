@@ -115,8 +115,10 @@ fn twelve_days() {
         "drummers drumming",
     ];
 
+    let mut previous_verse = String::from("");
+
     for i in 0..12 {
-        carol_verse(i, &verses);
+        previous_verse = carol_verse(i, &verses, &previous_verse);
     }
 }
 
@@ -136,24 +138,24 @@ fn count_order(count: usize) -> String {
     orders[count].to_string()
 }
 
-fn carol_verse(count: usize, verses: &[&str]) {
+fn carol_verse(count: usize, verses: &[&str], previous_verse: &String) -> String {
     let verse = verses[count];
+    let counted = if count == 0 {
+        "a".to_string()
+    } else {
+        count_article(count)
+    };
+    let new_item = format!("{count} {item}", count = counted, item = verse);
     println!(
-        "\nOn the {day} day of Christmas, my true love gave to me\n{count} {item}",
-        day = count_order(count),
-        count = count_article(count),
-        item = verse
+        "\nOn the {day} day of Christmas, my true love gave to me",
+        day = count_order(count)
     );
-    for number in (0..count).rev() {
-        println!(
-            "{and}{count} {item}",
-            and = if number == 0 { "And " } else { "" },
-            count = if number == 0 {
-                "a".to_string()
-            } else {
-                count_article(number)
-            },
-            item = verses[number]
-        );
-    }
+    let previous_verse = format!(
+        "{and}{new_item}\n{previous_verse}",
+        previous_verse = previous_verse,
+        and = if count == 0 { "And " } else { "" },
+        new_item = new_item
+    );
+    println!("{}", previous_verse);
+    previous_verse
 }
