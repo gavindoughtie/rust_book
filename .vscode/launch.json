@@ -4,6 +4,25 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'common_programming_concepts'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=common_programming_concepts",
+                    "--package=common_programming_concepts"
+                ],
+                "filter": {
+                    "name": "common_programming_concepts",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },        
         {
             "type": "lldb",
             "request": "launch",
