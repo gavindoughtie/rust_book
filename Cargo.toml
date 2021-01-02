@@ -4,7 +4,8 @@ members = [
     "projects/guessing_game",
     "projects/common_programming_concepts",
     "projects/understanding_ownership",
-    "projects/structs"
+    "projects/structs",
+    "projects/enums_and_pattern_matching"
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

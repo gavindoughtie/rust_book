@@ -7,6 +7,24 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'enums_and_pattern_matching'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=enums_and_pattern_matching",
+          "--package=enums_and_pattern_matching"
+        ],
+        "filter": {
+          "name": "enums_and_pattern_matching",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'structs'",
       "cargo": {
         "args": ["build", "--bin=structs", "--package=structs"],
