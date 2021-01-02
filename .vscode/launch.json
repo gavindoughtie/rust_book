@@ -7,6 +7,20 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'structs'",
+      "cargo": {
+        "args": ["build", "--bin=structs", "--package=structs"],
+        "filter": {
+          "name": "structs",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'understanding_ownership'",
       "cargo": {
         "args": [
