@@ -7,6 +7,20 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'collections'",
+      "cargo": {
+        "args": ["build", "--bin=collections", "--package=collections"],
+        "filter": {
+          "name": "collections",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'enums_and_pattern_matching'",
       "cargo": {
         "args": [
