@@ -6,7 +6,8 @@ members = [
     "projects/understanding_ownership",
     "projects/structs",
     "projects/enums_and_pattern_matching",
-    "projects/restaurant"
+    "projects/restaurant",
+    "projects/collections"
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
