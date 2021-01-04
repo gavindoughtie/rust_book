@@ -155,6 +155,12 @@ fn main() {
         sum(&v_integers),
         mode(&v_integers)
     );
+    let pl_input = "hello friends! I am happy to meet you!";
+    println!(
+        "\"{}\" in pig latin is \"{}\"",
+        pl_input,
+        pig_latin(&pl_input)
+    );
 }
 
 fn median(v_integers: &Vec<i32>) -> i32 {
@@ -196,4 +202,49 @@ fn mode(v_integers: &Vec<i32>) -> i32 {
         }
     }
     return *mode;
+}
+
+// Convert strings to pig latin. The first consonant of each word is moved to the end
+// of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with
+// a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in
+// mind the details about UTF-8 encoding!
+fn pig_latin(input: &str) -> String {
+    let mut output = String::new();
+    let mut word = String::new();
+    let mut new_word = true;
+    let mut suffix = '_';
+    for b in input.as_bytes().iter() {
+        let c = *b as char;
+        if c == ' ' || c == '!' {
+            if new_word {
+                output.push(c);
+            } else {
+                output += &format!("{}-{}ay{}", word, suffix, c);
+                word = String::new();
+                new_word = true;
+            }
+            continue;
+        }
+        if new_word {
+            if is_vowel(c) {
+                suffix = 'h';
+                word.push(c);
+            } else {
+                suffix = c;
+            }
+            new_word = false;
+        } else {
+            word.push(c);
+        }
+    }
+    output += &word;
+    return output;
+}
+
+fn is_vowel(c: char) -> bool {
+    let mut vowel_map: [bool; 256] = [false; 256];
+    for v in ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'].iter() {
+        vowel_map[*v as usize] = true;
+    }
+    return vowel_map[c as usize];
 }
