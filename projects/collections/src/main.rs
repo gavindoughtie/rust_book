@@ -309,3 +309,29 @@ fn init_char_map(chars: &[char]) -> [bool; 256] {
 fn is_char(c: char, char_map: &[bool; 256]) -> bool {
     return char_map[c as usize];
 }
+
+// Using a hash map and vectors, create a text interface
+// to allow a user to add employee names to a department
+// in a company. For example, “Add Sally to Engineering”
+// or “Add Amir to Sales.” Then let the user retrieve a
+// list of all people in a department or all people in
+// the company by department, sorted alphabetically.
+fn hr_update() {
+    let sally = "Sally";
+    let amir = "Amir";
+    let eng = Department{name: "Engineering".to_string()};
+    let sales = Department{name: "Sales".to_string()};
+
+    let mut departments = HashMap::<Department, Vec<Person>>::new();
+    let mut &people = departments.entry(eng).or_insert(Vec<Person>::new());
+}
+
+#[derive(Debug)]
+struct Department {
+    name: String
+}
+
+#[derive(Debug)]
+struct Person {
+    name: String
+}
