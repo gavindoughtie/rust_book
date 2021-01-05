@@ -155,13 +155,17 @@ fn main() {
         sum(&v_integers),
         mode(&v_integers)
     );
-    let pl_input = "hello friends! I am happy to meet you!";
+    let pl_input = "hello friends! Fortuitously, I am happy to meet you!";
     println!(
         "\"{}\" in pig latin is \"{}\"",
         pl_input,
         pig_latin(&pl_input)
     );
-}
+    println!(
+        "\"{}\" in pig latin compact is \"{}\"",
+        pl_input,
+        pig_latin_compact(&pl_input)
+    );}
 
 fn median(v_integers: &Vec<i32>) -> i32 {
     // let middle = v_integers.len() / 2 as usize;
@@ -204,29 +208,71 @@ fn mode(v_integers: &Vec<i32>) -> i32 {
     return *mode;
 }
 
+fn pigify(word: &str, vowels: &[bool; 256]) -> String {
+    if word.len() < 1 {
+        return word.to_string();
+    }
+    let mut out = String::with_capacity(word.len() * 2);
+    let word_bytes = word.as_bytes();
+    let first_letter = word_bytes[0] as char;
+    if is_char(first_letter, vowels) {
+        out.push_str(&word);
+        out.push_str("-hay");
+    } else {
+        let bytes: &[u8] = &word_bytes[1..];
+        let v_bytes: Vec<u8> = Vec::from(bytes);
+        let word = match String::from_utf8(v_bytes) {
+            Ok(v) => v,
+            Err(e) => panic!("Invalid UTF-8 sequence: {}", e),
+        };
+        out.push_str(&word);
+        out.push('-');
+        out.push(first_letter);
+        out.push_str("ay");
+    }
+    return out;
+}
+
+fn pig_latin_compact(input: &str) -> String {
+    let mut output = String::with_capacity(input.len() * 2);
+    let vowels = init_char_map(&VOWELS);
+    for word in input.split(&BREAKS[..]) {
+        output.push_str(&pigify(word, &vowels));
+        output.push(' ');
+    }
+    return output;
+}
+
 // Convert strings to pig latin. The first consonant of each word is moved to the end
 // of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with
 // a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in
 // mind the details about UTF-8 encoding!
 fn pig_latin(input: &str) -> String {
-    let mut output = String::new();
-    let mut word = String::new();
+    // It's a good bet that the output will never be more
+    // than 2x the input, so we can save an allocation in
+    // most cases:
+    let mut output = String::with_capacity(input.len() * 2);
+    // We keep re-using this word but 128 is larger than
+    // most words are likely to be:
+    let mut word = String::with_capacity(128);
     let mut new_word = true;
     let mut suffix = '_';
-    for b in input.as_bytes().iter() {
-        let c = *b as char;
-        if c == ' ' || c == '!' {
+    let vowels = init_char_map(&VOWELS);
+    let breaks = init_char_map(&BREAKS);
+
+    for c in input.chars() {
+        if is_char(c, &breaks) {
             if new_word {
                 output.push(c);
             } else {
-                output += &format!("{}-{}ay{}", word, suffix, c);
-                word = String::new();
+                add_pig(&mut output, &word, suffix, c);
+                word.clear();
                 new_word = true;
             }
             continue;
         }
         if new_word {
-            if is_vowel(c) {
+            if is_char(c, &vowels) {
                 suffix = 'h';
                 word.push(c);
             } else {
@@ -237,14 +283,29 @@ fn pig_latin(input: &str) -> String {
             word.push(c);
         }
     }
-    output += &word;
+    output.push_str(&word);
     return output;
 }
 
-fn is_vowel(c: char) -> bool {
-    let mut vowel_map: [bool; 256] = [false; 256];
-    for v in ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'].iter() {
-        vowel_map[*v as usize] = true;
+fn add_pig(output: &mut String, word: &str, suffix: char, c: char) {
+    output.push_str(word);
+    output.push('-');
+    output.push(suffix);
+    output.push_str("ay");
+    output.push(c);
+}
+
+const VOWELS: [char; 12] = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
+const BREAKS: [char; 3] = [' ', '!', ','];
+
+fn init_char_map(chars: &[char]) -> [bool; 256] {
+    let mut v_map: [bool; 256] = [false; 256];
+    for v in chars.iter() {
+        v_map[*v as usize] = true;
     }
-    return vowel_map[c as usize];
+    return v_map;
+}
+
+fn is_char(c: char, char_map: &[bool; 256]) -> bool {
+    return char_map[c as usize];
 }
