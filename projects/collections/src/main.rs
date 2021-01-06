@@ -317,19 +317,55 @@ fn is_char(c: char, char_map: &[bool; 256]) -> bool {
 // list of all people in a department or all people in
 // the company by department, sorted alphabetically.
 fn hr_update() {
-    let sally = "Sally";
-    let amir = "Amir";
-    let eng = Department{name: "Engineering".to_string()};
-    let sales = Department{name: "Sales".to_string()};
+    // let eng = Department::from("Engineering");
+    // let sales = Department::from("Sales");
 
-    let mut departments = HashMap::<Department, Vec<Person>>::new();
-    let mut &people = departments.entry(eng).or_insert(Vec<Person>::new());
+    // let mut departments = HashMap::<Department, HashMap<String, Person>>::new();
+    // let mut eng_people = HashMap::new();
+    // eng_people.insert("Sally".to_string(), sally);
+    // departments.insert(eng, sally);
+
+    // let mut &eng_people = departments.entry(eng).or_insert(HashMap::new());
+    //let mut eng_people = departments.entry(eng).or_insert(HashMap::new());
+
+    //let mut &people = departments.entry(eng).or_insert(Vec::new());
 }
 
 #[derive(Debug)]
-struct Department {
-    name: String
+struct Company<'a> {
+    name: String,
+    departments: HashMap<String, Department<'a>>,
+    employees: HashMap<String, Person>
 }
+
+impl Company<'_> {
+    fn from(name: &str) -> Company {
+        return Company{name: name.to_string(), departments: HashMap::new(), employees: HashMap::new()};
+    }
+    fn add_employee(&self, name: &str, department: &str) -> (&Department, &Person) {
+        let department = self.departments.entry(department.to_string()).or_insert(Department::from(department));
+        let person = self.employees.entry(name.to_string()).or_insert(Person{name: name.to_string()});
+        department.add_person(person);
+        return (department, person);
+    }
+}
+
+#[derive(Debug)]
+struct Department<'a> {
+    name: String,
+    people: HashMap<String, &'a Person>
+}
+
+impl<'a> Department<'a> {
+    fn from(name: &str) -> Department {
+        return Department{name: name.to_string(), people: HashMap::new()}
+    }
+
+    fn add_person(&self, person: &'a Person) {
+        return self.people.insert(person.name, person).expect("Error adding person");
+    }
+}
+
 
 #[derive(Debug)]
 struct Person {
