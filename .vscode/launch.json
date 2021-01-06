@@ -7,9 +7,31 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'error_handling'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=error_handling",
+          "--package=error_handling"
+        ],
+        "filter": {
+          "name": "error_handling",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'collections'",
       "cargo": {
-        "args": ["build", "--bin=collections", "--package=collections"],
+        "args": [
+          "build",
+          "--bin=collections",
+          "--package=collections"
+        ],
         "filter": {
           "name": "collections",
           "kind": "bin"
@@ -41,7 +63,11 @@
       "request": "launch",
       "name": "Debug executable 'structs'",
       "cargo": {
-        "args": ["build", "--bin=structs", "--package=structs"],
+        "args": [
+          "build",
+          "--bin=structs",
+          "--package=structs"
+        ],
         "filter": {
           "name": "structs",
           "kind": "bin"
@@ -91,7 +117,11 @@
       "request": "launch",
       "name": "Debug executable 'guessing_game'",
       "cargo": {
-        "args": ["build", "--bin=guessing_game", "--package=guessing_game"],
+        "args": [
+          "build",
+          "--bin=guessing_game",
+          "--package=guessing_game"
+        ],
         "filter": {
           "name": "guessing_game",
           "kind": "bin"
@@ -105,7 +135,11 @@
       "request": "launch",
       "name": "Debug executable 'hello_cargo'",
       "cargo": {
-        "args": ["build", "--bin=hello_cargo", "--package=hello_cargo"],
+        "args": [
+          "build",
+          "--bin=hello_cargo",
+          "--package=hello_cargo"
+        ],
         "filter": {
           "name": "hello_cargo",
           "kind": "bin"
