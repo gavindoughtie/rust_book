@@ -20,7 +20,10 @@
         }
       },
       "args": [],
-      "cwd": "${workspaceFolder}"
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/error_handling"
     },
     {
       "type": "lldb",
