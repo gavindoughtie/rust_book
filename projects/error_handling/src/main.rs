@@ -1,18 +1,30 @@
 use std::fs::File;
-use std::io::Read;
+use std::io::{ErrorKind, Read};
 
 fn main() {
-    println!("Hello, error_handling!");
-    let f = File::open("./src/hello.txt");
+    let filename = "hello4.txt";
 
-    let mut f = match f {
+    // let mut f = File::open(filename).expect("couldn't open");
+
+    let mut f = match File::open(filename) {
         Ok(file) => file,
-        Err(error) => panic!("Problem opening the file: {:?}", error),
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create(filename) {
+                Ok(fc) => {
+                    // fc.write_str("Welcome to ");
+                    // fc.write_str(filename);
+                    fc
+                }
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => {
+                panic!("Problem opening the file: {:?}", other_error)
+            }
+        },
     };
 
     let mut hello = String::new();
-    
     let bytes = f.read_to_string(&mut hello).expect("Failed to read file");
 
-    print!("read {}:\n{}\n", bytes, hello);
+    print!("read {}, {} bytes:\n{}\n", filename, bytes, hello);
 }
