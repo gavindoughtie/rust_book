@@ -19,7 +19,7 @@
           "kind": "bin"
         }
       },
-      "args": ["error_handling_file3.txt"],
+      "args": ["error_handling_file4.txt"],
       "env": {
         "RUST_BACKTRACE": "1"
       },
