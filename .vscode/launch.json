@@ -7,6 +7,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'generic_types_traits_lifetimes'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=generic_types_traits_lifetimes",
+          "--package=generic_types_traits_lifetimes"
+        ],
+        "filter": {
+          "name": "generic_types_traits_lifetimes",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/generic_types_traits_lifetimes"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'error_handling'",
       "cargo": {
         "args": [
