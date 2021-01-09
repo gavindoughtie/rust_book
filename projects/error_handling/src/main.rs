@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{ErrorKind, Read, Write};
+use std::io::{Error, ErrorKind, Read, Write};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -27,11 +27,11 @@ fn main() {
 
     print!("read {}, {} bytes:\n{}\n", filename, bytes, hello);
     let compact_filename = format!("compact_{}", filename);
-    let compact = open_file_compact(&compact_filename);
+    let compact = open_file_compact(&compact_filename).unwrap();
     println!("open_file_compact read: {}", &compact);
 }
 
-fn open_file_compact(filename: &str) -> String {
+fn open_file_compact(filename: &str) -> Result<String, Error> {
     let mut f = File::open(filename).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             let mut fc = File::create(filename).unwrap_or_else(|error| {
@@ -45,6 +45,10 @@ fn open_file_compact(filename: &str) -> String {
         }
     });
     let mut output = String::new();
-    f.read_to_string(&mut output).expect(&format!("Failed to read {}", filename));
-    return output;
+    match f.read_to_string(&mut output) {
+        Ok(_) => Ok(output),
+        Err(e) => Err(e)
+    }
+    // .expect(&format!("Failed to read {}", filename));
+    // return output;
 }
