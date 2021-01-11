@@ -319,42 +319,44 @@ fn is_char(c: char, char_map: &[bool; 256]) -> bool {
 // list of all people in a department or all people in
 // the company by department, sorted alphabetically.
 fn hr_update() {
-    let mut company = Company::from("AON");
-
-    // This line has no errors:
+    let mut company = Company::from("Columbia");
     company.add_employee("Gavin", "Engineering");
-
-    // But this line has the error:
-    // >>cannot borrow 'company' as mutable more than once at a time<<
-    let (department, person) = company.add_employee("Jason", "Management");
-
-    // The following line also has the error:
-    // >>cannot borrow 'company' as immutable because it is also borrowed as mutable<<
-    println!("added department:\n{:#?},\nperson:\n{:#?}, company: {:#?}", department, person, company);
+    company.add_employee("Mason", "Engineering");
+    println!("{:?}", company);
 }
 
 #[derive(Debug)]
 struct Person {
-    name: String
+    name: String,
+}
+
+impl Person {
+    fn from(name: &str) -> Person {
+        return Person{name: name.to_string()};
+    }
 }
 
 #[derive(Debug)]
 struct Company<'a> {
     name: String,
     departments: HashMap<String, Department<'a>>,
-    employees: HashMap<String, Person>
+    employees: HashMap<String, Person>,
 }
 
 #[derive(Debug)]
 struct Department<'a> {
     name: String,
     company: &'a Company<'a>,
-    people: HashMap<&'a str, &'a Person>
+    people: HashMap<&'a str, &'a Person>,
 }
 
 impl<'a> Department<'a> {
     fn from(name: &str, company: &'a Company) -> Department<'a> {
-        return Department{name: name.to_string(), company: company, people: HashMap::new()}
+        return Department {
+            name: name.to_string(),
+            company: company,
+            people: HashMap::new(),
+        };
     }
 
     fn add_person(&mut self, person: &'a Person) -> Option<&'a Person> {
@@ -364,16 +366,27 @@ impl<'a> Department<'a> {
 
 impl<'a> Company<'a> {
     fn from(name: &str) -> Company {
-        return Company{name: name.to_string(), departments: HashMap::new(), employees: HashMap::new()};
+        return Company {
+            name: name.to_string(),
+            departments: HashMap::new(),
+            employees: HashMap::new(),
+        };
     }
 
-    fn add_employee(&'a mut self, name: &'a str, department: &'a str) -> (&'a Department, &'a Person) {
+    fn add_employee<'b>(
+        &self,
+        name: &'a str,
+        department: &'a str,
+    ) {
+    // -> (&'a Department, &'a Person) {
         // Line below has the error (self is highlighted in Department::from(department, self)):
         // >> cannot borrow `*self` as immutable because it is also borrowed as mutable <<
-        let department = self.departments.entry(department.to_string())
-            .or_insert(Department::from(department, self));
-        let person = self.employees.entry(name.to_string()).or_insert(Person{name: name.to_string()});
-        department.add_person(person);
-        return (department, person);
+        self.employees.entry(name.to_string()).or_insert(Person::from(name));
+        // let person = &self.employees[name];
+        println!("TODO: {}", department);
+        self.departments
+            .entry(department.to_string())
+            .or_insert(Department::from(department, self));//.add_person(&self.employees[name]);
+        // return (department, person);
     }
 }
