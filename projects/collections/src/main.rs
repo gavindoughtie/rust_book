@@ -319,7 +319,7 @@ fn is_char(c: char, char_map: &[bool; 256]) -> bool {
 // list of all people in a department or all people in
 // the company by department, sorted alphabetically.
 fn hr_update() {
-    let mut company = Company::from("Columbia");
+    let company = Company::from("Columbia");
     company.add_employee("Gavin", "Engineering");
     company.add_employee("Mason", "Engineering");
     println!("{:?}", company);
@@ -378,15 +378,12 @@ impl<'a> Company<'a> {
         name: &'a str,
         department: &'a str,
     ) {
-    // -> (&'a Department, &'a Person) {
-        // Line below has the error (self is highlighted in Department::from(department, self)):
-        // >> cannot borrow `*self` as immutable because it is also borrowed as mutable <<
-        self.employees.entry(name.to_string()).or_insert(Person::from(name));
-        // let person = &self.employees[name];
-        println!("TODO: {}", department);
-        self.departments
-            .entry(department.to_string())
-            .or_insert(Department::from(department, self));//.add_person(&self.employees[name]);
-        // return (department, person);
+        // This is all wrong but at least it compiles.
+        let p = Person::from(name);
+        let mut d = Department::from(department, &self);
+        d.add_person(&p);
+
+        // TODO: return to this after references
+        println!("{:?}, {:?}, {:?}", p, name, d);
     }
 }
