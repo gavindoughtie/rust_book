@@ -7,6 +7,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'writing_automated_tests'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=writing_automated_tests",
+          "--package=writing_automated_tests"
+        ],
+        "filter": {
+          "name": "writing_automated_tests",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/writing_automated_tests"
+    },    
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'generic_types_traits_lifetimes'",
       "cargo": {
         "args": [

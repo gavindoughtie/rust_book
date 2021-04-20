@@ -10,6 +10,7 @@ members = [
     "projects/collections",
     "projects/error_handling",
     "projects/generic_types_traits_lifetimes",
+    "projects/writing_automated_tests",
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
