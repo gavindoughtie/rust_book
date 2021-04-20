@@ -44,7 +44,14 @@ fn main() {
     let char_list = vec!['y', 'm', 'a', 'q'];
 
     let result = largest(&char_list);
+
     println!("The largest char is {}", result);
+
+    // TODO(gavin.doughtie): How can we get the compiler to
+    // fail if we try to pass an empty list?
+    // let empty_list: Vec<char> = vec![];
+    // let result = largest(&empty_list);
+    // println!("The largest element in the empty list is {}", result);
 
     // Lifetimes
     {
@@ -66,6 +73,10 @@ fn main() {
         result = longest(string1.as_str(), string2.as_str());
     }
     println!("The longest string is {}", result);
+
+    let l = longest_with_an_announcement("foo", "foobar", "this is the announcement");
+
+    println!("Longest: {}", l);
 }
 
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
@@ -86,4 +97,22 @@ fn largest<T: PartialOrd + Copy>(list: &[T]) -> &T {
     }
 
     largest
+}
+
+use std::fmt::Display;
+
+fn longest_with_an_announcement<'a, T>(
+    x: &'a str,
+    y: &'a str,
+    ann: T,
+) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
 }
