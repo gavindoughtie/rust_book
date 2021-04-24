@@ -7,6 +7,25 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug unit tests in executable 'writing_automated_tests'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--bin=writing_automated_tests",
+          "--package=writing_automated_tests"
+        ],
+        "filter": {
+          "name": "writing_automated_tests",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}/projects/writing_automated_tests"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'writing_automated_tests'",
       "cargo": {
         "args": [
