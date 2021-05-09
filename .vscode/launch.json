@@ -13,14 +13,14 @@
           "test",
           "--no-run",
           "--bin=writing_automated_tests",
-          "--package=writing_automated_tests"
+          "--package=writing_automated_tests",
         ],
         "filter": {
           "name": "writing_automated_tests",
           "kind": "bin"
         }
       },
-      "args": [],
+      "args": ["--show-output"], // Passed to cargo
       "cwd": "${workspaceFolder}/projects/writing_automated_tests"
     },
     {
@@ -43,7 +43,7 @@
         "RUST_BACKTRACE": "1"
       },
       "cwd": "${workspaceFolder}/projects/writing_automated_tests"
-    },    
+    },
     {
       "type": "lldb",
       "request": "launch",
