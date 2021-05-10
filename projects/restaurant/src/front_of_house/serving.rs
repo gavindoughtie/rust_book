@@ -1,5 +1,11 @@
-fn take_order() {}
+pub use super::super::back_of_house::{Breakfast};
 
-pub fn serve_order() {}
+pub fn take_order(toast: &str) -> Breakfast {
+  return Breakfast::summer(toast);
+}
 
-fn take_payment() {}
+pub fn serve_order(_order: Breakfast) {
+
+}
+
+pub fn take_payment() {}

@@ -9,14 +9,15 @@ mod tests {
 mod front_of_house;
 
 mod back_of_house {
-    pub struct Breakfast {
-        pub toast: String,
-        seasonal_fruit: String,
-    }
-
     pub enum Appetizer {
         Soup,
         Salad,
+    }
+
+    pub struct Breakfast {
+        pub toast: String,
+        seasonal_fruit: String,
+        pub appetizer: Appetizer,
     }
 
     impl Breakfast {
@@ -24,7 +25,14 @@ mod back_of_house {
             Breakfast {
                 toast: String::from(toast),
                 seasonal_fruit: String::from("peaches"),
+                appetizer: Appetizer::Salad
             }
+        }
+    }
+
+    impl std::fmt::Display for Breakfast {
+        fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            write!(f, "{}, {}", self.toast, self.seasonal_fruit)           
         }
     }
 }
@@ -42,8 +50,11 @@ pub fn eat_at_restaurant() {
     // to see or modify the seasonal fruit that comes with the meal
     // meal.seasonal_fruit = String::from("blueberries");
 
-    let order1 = back_of_house::Appetizer::Soup;
-    let order2 = back_of_house::Appetizer::Salad;
+    let app1 = back_of_house::Appetizer::Soup;
+    let app2 = back_of_house::Appetizer::Salad;
+
+    meal.appetizer = app1;
+    meal.appetizer = app2; // Replaces app1
 
     // Absolute path
     crate::front_of_house::hosting::add_to_waitlist();
@@ -54,5 +65,8 @@ pub fn eat_at_restaurant() {
     // Imported path
     hosting::add_to_waitlist();
 
-    serving::serve_order()
+    let food = serving::take_order("rye");
+    serving::serve_order(meal);
+    serving::serve_order(food);
+    serving::take_payment();
 }
