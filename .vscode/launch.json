@@ -12,12 +12,12 @@
         "args": [
           "test",
           "--no-run",
-          "--bin=writing_automated_tests",
+          "--lib",
           "--package=writing_automated_tests",
         ],
         "filter": {
           "name": "writing_automated_tests",
-          "kind": "bin"
+          "kind": "lib"
         }
       },
       "args": ["--show-output"], // Passed to cargo
@@ -35,7 +35,7 @@
         ],
         "filter": {
           "name": "writing_automated_tests",
-          "kind": "bin"
+          "kind": "lib"
         }
       },
       "args": [],
