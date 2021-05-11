@@ -1,4 +1,4 @@
-use adder;
+mod adder;
 
 #[test]
 fn it_adds_two() {
