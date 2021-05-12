@@ -1,2 +1,2 @@
-mod adder;
-mod rect;
+pub mod adder;
+pub mod rect;
