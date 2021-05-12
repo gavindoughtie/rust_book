@@ -26,6 +26,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug integration tests in executable 'writing_automated_tests'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=writing_automated_tests",
+          "--test",
+          "integration_test"
+        ],
+        "filter": {
+          "name": "writing_automated_tests",
+          "kind": "lib"
+        }
+      },
+      "args": ["--show-output"], // Passed to cargo
+      "cwd": "${workspaceFolder}/projects/writing_automated_tests"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'writing_automated_tests'",
       "cargo": {
         "args": [
