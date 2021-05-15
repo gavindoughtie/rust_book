@@ -19,7 +19,10 @@
           "kind": "bin"
         }
       },
-      "args": [],
+      "args": [
+        "dreary",
+        "poem.txt"
+      ],
       "env": {
         "RUST_BACKTRACE": "1"
       },
