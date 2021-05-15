@@ -35,7 +35,7 @@ pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn usage() {
-  println!("Usage: minigrep query filename(s)");
+  eprintln!("Usage: minigrep query filename(s)")
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
