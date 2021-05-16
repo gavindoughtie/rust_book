@@ -1,6 +1,6 @@
+use std::env;
 use std::error::Error;
 use std::fs;
-use std::env;
 
 pub struct Config {
   pub query: String,
@@ -9,14 +9,29 @@ pub struct Config {
 }
 
 impl Config {
-  pub fn new(args: &[String]) -> Result<Config, &'static str> {
-    if args.len() < 3 {
-      return Err("not enough arguments");
-    }
+  pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
+    args.next(); // Skip the executable name
+
+    let query = match args.next() {
+      Some(arg) => arg,
+      None => return Err("Didn't get a query string"),
+    };
+
+    let filename = match args.next() {
+      Some(arg) => arg,
+      None => return Err("Didn't get a file name"),
+    };
+    // if args.len() < 3 {
+    //   return Err("not enough arguments");
+    // }
+    // let query = args.next().unwrap();
+    // let filename = args.next().unwrap();
     let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
-    let query = args[1].clone();
-    let filename = args[2].clone();
-    Ok(Config { query, filename, case_sensitive })
+    Ok(Config {
+      query,
+      filename,
+      case_sensitive,
+    })
   }
 }
 
@@ -39,14 +54,19 @@ pub fn usage() {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-  let mut results: Vec<&'a str> = Vec::new();
-  for line in contents.lines() {
-    // do something with line
-    if line.contains(query) {
-      results.push(line);
-    }
-  }
-  results
+  // 13.3 functional language features
+  contents
+    .lines()
+    .filter(|line| line.contains(query))
+    .collect()
+  // let mut results: Vec<&'a str> = Vec::new();
+  // for line in contents.lines() {
+  //   // do something with line
+  //   if line.contains(query) {
+  //     results.push(line);
+  //   }
+  // }
+  // results
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
@@ -58,7 +78,7 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
       results.push(line);
     }
   }
-  results  
+  results
 }
 
 #[cfg(test)]
