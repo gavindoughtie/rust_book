@@ -60,7 +60,8 @@ fn generate_workout(intensity: u32, random_number: u32) {
     }
 }
 
-fn main() {
+fn iterator_snippets() {
+    println!("iterator snippets...");
     let x = vec![1, 2, 3];
 
     // either:
@@ -82,6 +83,18 @@ fn main() {
     for val in v1_iter {
         println!("Got: {}", val);
     }
+
+    let v1: Vec<i32> = vec![1, 2, 3];
+
+    let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+
+    assert_eq!(v2, vec![2, 3, 4]);
+
+    println!("end iterator snippets...");
+}
+
+fn main() {
+    iterator_snippets();
 
     let simulated_user_specified_value = 10;
     let simulated_random_number = 7;
