@@ -61,6 +61,19 @@ fn generate_workout(intensity: u32, random_number: u32) {
 }
 
 fn main() {
+    let x = vec![1, 2, 3];
+
+    // either:
+    let equal_to_x = |z| z == x;
+    println!("x here: {:?}", x);
+    // or (this takes ownership of x)
+    // let equal_to_x = move |z| z == x;
+    // println!("can't use x here: {:?}", x);
+
+    let y = vec![1, 2, 3];
+
+    assert!(equal_to_x(y));
+
     let simulated_user_specified_value = 10;
     let simulated_random_number = 7;
 
