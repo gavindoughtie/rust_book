@@ -7,26 +7,21 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug executable 'minigrep'",
+      "name": "Debug unit tests in 'functional_language_features'",
       "cargo": {
         "args": [
-          "build",
-          "--bin=minigrep",
-          "--package=minigrep"
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=functional_language_features"
         ],
         "filter": {
-          "name": "minigrep",
-          "kind": "bin"
+          "name": "functional_language_features",
+          "kind": "lib"
         }
       },
-      "args": [
-        "dreary",
-        "poem.txt"
-      ],
-      "env": {
-        "RUST_BACKTRACE": "1"
-      },
-      "cwd": "${workspaceFolder}/projects/minigrep"
+      "args": ["--show-output"], // Passed to cargo
+      "cwd": "${workspaceFolder}/projects/functional_language_features"
     },
     {
       "type": "lldb",
@@ -43,14 +38,31 @@
           "kind": "bin"
         }
       },
-      "args": [
-      ],
+      "args": [],
       "env": {
         "RUST_BACKTRACE": "1"
       },
       "cwd": "${workspaceFolder}/projects/functional_language_features"
     },
-        {
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'minigrep'",
+      "cargo": {
+        "args": ["build", "--bin=minigrep", "--package=minigrep"],
+        "filter": {
+          "name": "minigrep",
+          "kind": "bin"
+        }
+      },
+      "args": ["dreary", "poem.txt"],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/minigrep"
+    },
+
+    {
       "type": "lldb",
       "request": "launch",
       "name": "Debug unit tests in executable 'writing_automated_tests'",
@@ -59,7 +71,7 @@
           "test",
           "--no-run",
           "--lib",
-          "--package=writing_automated_tests",
+          "--package=writing_automated_tests"
         ],
         "filter": {
           "name": "writing_automated_tests",
@@ -137,11 +149,7 @@
       "request": "launch",
       "name": "Debug executable 'error_handling'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=error_handling",
-          "--package=error_handling"
-        ],
+        "args": ["build", "--bin=error_handling", "--package=error_handling"],
         "filter": {
           "name": "error_handling",
           "kind": "bin"
@@ -158,11 +166,7 @@
       "request": "launch",
       "name": "Debug executable 'collections'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=collections",
-          "--package=collections"
-        ],
+        "args": ["build", "--bin=collections", "--package=collections"],
         "filter": {
           "name": "collections",
           "kind": "bin"
@@ -194,11 +198,7 @@
       "request": "launch",
       "name": "Debug executable 'structs'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=structs",
-          "--package=structs"
-        ],
+        "args": ["build", "--bin=structs", "--package=structs"],
         "filter": {
           "name": "structs",
           "kind": "bin"
@@ -248,11 +248,7 @@
       "request": "launch",
       "name": "Debug executable 'guessing_game'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=guessing_game",
-          "--package=guessing_game"
-        ],
+        "args": ["build", "--bin=guessing_game", "--package=guessing_game"],
         "filter": {
           "name": "guessing_game",
           "kind": "bin"
@@ -266,11 +262,7 @@
       "request": "launch",
       "name": "Debug executable 'hello_cargo'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=hello_cargo",
-          "--package=hello_cargo"
-        ],
+        "args": ["build", "--bin=hello_cargo", "--package=hello_cargo"],
         "filter": {
           "name": "hello_cargo",
           "kind": "bin"

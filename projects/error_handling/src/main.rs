@@ -41,7 +41,7 @@ fn open_file_compact(filename: &str) -> Result<String, Error> {
     let mut f = File::open(filename).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             let mut fc = File::create(filename).unwrap_or_else(|error| {
-                panic!(format!("Problem creating {} {:?}", filename, error));
+                panic!("Problem creating {} {:?}", filename, error);
             });
             fc.write_fmt(format_args!("file_compact wrote {}", filename))
                 .expect("failed to write to file after creating it");
@@ -62,7 +62,7 @@ fn open_file_more_compact(filename: &str) -> Result<String, Error> {
     let mut f = File::open(filename).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             let mut fc = File::create(filename).unwrap_or_else(|error| {
-                panic!(format!("Problem creating {} {:?}", filename, error));
+                panic!("Problem creating {} {:?}", filename, error);
             });
             fc.write_fmt(format_args!("file_compact wrote {}", filename)).expect("Failed to write new file");
             File::open(filename).unwrap()

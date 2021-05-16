@@ -74,6 +74,15 @@ fn main() {
 
     assert!(equal_to_x(y));
 
+    // Iterators
+    let v1 = vec![1, 2, 3];
+
+    let v1_iter = v1.iter();
+
+    for val in v1_iter {
+        println!("Got: {}", val);
+    }
+
     let simulated_user_specified_value = 10;
     let simulated_random_number = 7;
 
