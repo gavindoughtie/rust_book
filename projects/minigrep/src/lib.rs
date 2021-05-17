@@ -1,10 +1,19 @@
+//! # Minigrep
+//!
+//! `minigrep` is a minimal file grep implementation.
 use std::env;
 use std::error::Error;
 use std::fs;
 
+/// Configuration for grepping; represents the
+/// command-line params and any environment variables
+/// set when minigrep is invoked.
 pub struct Config {
+  /// String being searched for
   pub query: String,
+  /// file to search
   pub filename: String,
+  /// whether the search should be case-sensitive
   pub case_sensitive: bool,
 }
 
