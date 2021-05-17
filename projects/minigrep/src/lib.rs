@@ -53,6 +53,13 @@ pub fn usage() {
   eprintln!("Usage: minigrep query filename(s)")
 }
 
+/// Search for a string in some text
+/// # Examples
+/// ```
+/// let query = "foo";
+/// let contents = "foo bar";
+/// assert_eq!(vec!["foo bar"], minigrep::search(&query, &contents));
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
   // 13.3 functional language features
   contents

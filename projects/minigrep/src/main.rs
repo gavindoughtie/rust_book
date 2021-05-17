@@ -2,6 +2,7 @@ use std::env;
 use std::process;
 use minigrep::Config;
 
+/// Top level minigrep function
 fn main() {
     // Reconfiguring config reading for 13.3 in functional language features.
     let config = Config::new(env::args()).unwrap_or_else(|err| {
