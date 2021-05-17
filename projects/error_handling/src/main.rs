@@ -64,7 +64,8 @@ fn open_file_more_compact(filename: &str) -> Result<String, Error> {
             let mut fc = File::create(filename).unwrap_or_else(|error| {
                 panic!("Problem creating {} {:?}", filename, error);
             });
-            fc.write_fmt(format_args!("file_compact wrote {}", filename)).expect("Failed to write new file");
+            fc.write_fmt(format_args!("file_compact wrote {}", filename))
+                .expect("Failed to write new file");
             File::open(filename).unwrap()
         } else {
             panic!("Problem opening {} {:?}", filename, error);

@@ -25,14 +25,14 @@ mod back_of_house {
             Breakfast {
                 toast: String::from(toast),
                 seasonal_fruit: String::from("peaches"),
-                appetizer: Appetizer::Salad
+                appetizer: Appetizer::Salad,
             }
         }
     }
 
     impl std::fmt::Display for Breakfast {
         fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-            write!(f, "{}, {}", self.toast, self.seasonal_fruit)           
+            write!(f, "{}, {}", self.toast, self.seasonal_fruit)
         }
     }
 }

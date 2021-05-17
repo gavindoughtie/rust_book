@@ -332,7 +332,9 @@ struct Person {
 
 impl Person {
     fn from(name: &str) -> Person {
-        return Person{name: name.to_string()};
+        return Person {
+            name: name.to_string(),
+        };
     }
 }
 
@@ -373,11 +375,7 @@ impl<'a> Company<'a> {
         };
     }
 
-    fn add_employee<'b>(
-        &self,
-        name: &'a str,
-        department: &'a str,
-    ) {
+    fn add_employee<'b>(&self, name: &'a str, department: &'a str) {
         // This is all wrong but at least it compiles.
         let p = Person::from(name);
         let mut d = Department::from(department, &self);

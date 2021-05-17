@@ -1,6 +1,6 @@
+use minigrep::Config;
 use std::env;
 use std::process;
-use minigrep::Config;
 
 /// Top level minigrep function
 fn main() {
