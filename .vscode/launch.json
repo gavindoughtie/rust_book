@@ -7,6 +7,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'smart_pointers'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=smart_pointers",
+          "--package=smart_pointers"
+        ],
+        "filter": {
+          "name": "smart_pointers",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/smart_pointers"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug unit tests in 'functional_language_features'",
       "cargo": {
         "args": [
