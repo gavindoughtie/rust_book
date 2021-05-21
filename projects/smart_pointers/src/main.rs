@@ -6,13 +6,15 @@ enum List<T> {
     Nil,
 }
 
-impl List<T> {
+impl<T> List<T> {
   fn toString() -> String {
-    return self::Cons
+    String::from("???")
   }
 
-  fn get() -> T {
-      return self::Cons[0]
+  fn get(&self) -> T {
+    match self {
+      List::Cons(t, b) => T
+    }
   }
 }
 
