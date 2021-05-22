@@ -1,5 +1,6 @@
 use crate::List::{Cons, Nil};
 use std::fmt;
+use std::ops::Deref;
 
 #[derive(Debug)]
 enum List<T: Default+Copy+std::fmt::Display> {
@@ -28,4 +29,40 @@ impl<T: Default+Copy+std::fmt::Display> fmt::Display for List<T> {
 fn main() {
     let list = Cons("foo", Box::new(Cons("bar", Box::new(Cons("baz", Box::new(Nil))))));
     println!("list: {}", list);
+
+
+    // deref examples:
+    let x = 5;
+    let y = &x;
+    let boxy = Box::new(x);
+    let myboxy = MyBox::new(x);
+
+    assert_eq!(5, x);
+    assert_eq!(5, *y);
+    assert_eq!(5, *boxy);
+    assert_eq!(5, *myboxy);
+
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+    hello(&"gavin"[1..5])
+}
+
+fn hello(name: &str) {
+    println!("Hello, {}!", name);
+}
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &T {
+        &self.0
+    }
 }
