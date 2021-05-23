@@ -1,11 +1,11 @@
-use crate::List::{Cons, Nil};
-use crate::RcList::{RcCons, RcNil};
-use crate::RcCList::{RcCCons, RcCNil};
 use crate::CycleList::{CycleCons, CycleNil};
+use crate::List::{Cons, Nil};
+use crate::RcCList::{RcCCons, RcCNil};
+use crate::RcList::{RcCons, RcNil};
 
 use std::fmt;
 use std::ops::Deref;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 #[derive(Debug)]
 enum List<T: Default + Copy + std::fmt::Display> {
@@ -121,7 +121,10 @@ fn main() {
 
     println!("a initial rc count = {}", Rc::strong_count(&a));
     println!("a next item = {:?}", a.tail());
-    println!("a rc count after calling .tail() = {}", Rc::strong_count(&a));
+    println!(
+        "a rc count after calling .tail() = {}",
+        Rc::strong_count(&a)
+    );
 
     let b = Rc::new(CycleCons(10, RefCell::new(Rc::clone(&a))));
 
@@ -139,9 +142,61 @@ fn main() {
     // Uncomment the next line to see that we have a cycle;
     // it will overflow the stack
     // println!("a next item = {:?}", a.tail());
+
+    println!("Weak<T> Example:");
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&leaf),
+        Rc::weak_count(&leaf),
+    );
+
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&leaf)]),
+        });
+
+        *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
+        println!(
+            "branch strong = {}, weak = {}",
+            Rc::strong_count(&branch),
+            Rc::weak_count(&branch),
+        );
+
+        println!(
+            "leaf strong = {}, weak = {}",
+            Rc::strong_count(&leaf),
+            Rc::weak_count(&leaf),
+        );
+
+        println!("{:?}", branch);
+    }
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&leaf),
+        Rc::weak_count(&leaf),
+    );
 }
 
 use std::cell::RefCell;
+
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    parent: RefCell<Weak<Node>>,
+    children: RefCell<Vec<Rc<Node>>>,
+}
 
 #[derive(Debug)]
 enum RcCList {
