@@ -1,6 +1,8 @@
 use crate::List::{Cons, Nil};
 use crate::RcList::{RcCons, RcNil};
 use crate::RcCList::{RcCCons, RcCNil};
+use crate::CycleList::{CycleCons, CycleNil};
+
 use std::fmt;
 use std::ops::Deref;
 use std::rc::Rc;
@@ -111,7 +113,32 @@ fn main() {
 
     println!("a after = {:?}", a);
     println!("b after = {:?}", b);
-    println!("c after = {:?}", c);    
+    println!("c after = {:?}", c);
+
+    // Memory leak with cycles:
+    println!("Cycles that create a memory leak....");
+    let a = Rc::new(CycleCons(5, RefCell::new(Rc::new(CycleNil))));
+
+    println!("a initial rc count = {}", Rc::strong_count(&a));
+    println!("a next item = {:?}", a.tail());
+    println!("a rc count after calling .tail() = {}", Rc::strong_count(&a));
+
+    let b = Rc::new(CycleCons(10, RefCell::new(Rc::clone(&a))));
+
+    println!("a rc count after b creation = {}", Rc::strong_count(&a));
+    println!("b initial rc count = {}", Rc::strong_count(&b));
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&b);
+    }
+
+    println!("b rc count after changing a = {}", Rc::strong_count(&b));
+    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+
+    // Uncomment the next line to see that we have a cycle;
+    // it will overflow the stack
+    // println!("a next item = {:?}", a.tail());
 }
 
 use std::cell::RefCell;
@@ -120,6 +147,21 @@ use std::cell::RefCell;
 enum RcCList {
     RcCCons(Rc<RefCell<i32>>, Rc<RcCList>),
     RcCNil,
+}
+
+#[derive(Debug)]
+enum CycleList {
+    CycleCons(i32, RefCell<Rc<CycleList>>),
+    CycleNil,
+}
+
+impl CycleList {
+    fn tail(&self) -> Option<&RefCell<Rc<CycleList>>> {
+        match self {
+            CycleCons(_, item) => Some(item),
+            CycleNil => None,
+        }
+    }
 }
 
 #[derive(Debug)]
