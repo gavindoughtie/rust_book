@@ -1,6 +1,8 @@
 use crate::List::{Cons, Nil};
+use crate::RcList::{RcCons, RcNil};
 use std::fmt;
 use std::ops::Deref;
+use std::rc::Rc;
 
 #[derive(Debug)]
 enum List<T: Default + Copy + std::fmt::Display> {
@@ -18,6 +20,24 @@ impl<T: Default + Copy + std::fmt::Display> List<T> {
 }
 
 impl<T: Default + Copy + std::fmt::Display> fmt::Display for List<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // The `f` value implements the `Write` trait, which is what the
+        // write! macro is expecting. Note that this formatting ignores the
+        // various flags provided to format strings.
+        write!(f, "{}", self.to_string())
+    }
+}
+
+impl RcList {
+    fn to_string(&self) -> String {
+        match self {
+            RcList::RcCons(t, b) => format!("{} {}", t, b),
+            RcList::RcNil => String::new(),
+        }
+    }
+}
+
+impl fmt::Display for RcList {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // The `f` value implements the `Write` trait, which is what the
         // write! macro is expecting. Note that this formatting ignores the
@@ -56,11 +76,32 @@ fn main() {
         let d = CustomSmartPointer {
             data: String::from("other stuff"),
         };
-        let e = CustomSmartPointer { data: String::from("e pointer")};
-        println!("custom smart pointers {} and {}, {}", c.data, d.data, e.data);
+        let e = CustomSmartPointer {
+            data: String::from("e pointer"),
+        };
+        println!(
+            "custom smart pointers {} and {}, {}",
+            c.data, d.data, e.data
+        );
         drop(d);
     }
     println!("after CustomSmartPointers scope.");
+
+    let a = Rc::new(RcCons(5, Rc::new(RcCons(10, Rc::new(RcNil)))));
+    {
+        println!("count after creating a = {}", Rc::strong_count(&a));
+        let b = RcCons(3, Rc::clone(&a));
+        println!("count after creating b = {}", Rc::strong_count(&a));
+        let c = RcCons(4, Rc::clone(&a));
+        println!("count after creating c = {}", Rc::strong_count(&a));
+        println!("a: {}, b: {}, c: {}", a, b, c)
+    }
+    println!("count after exiting scope: {}", Rc::strong_count(&a));
+}
+
+enum RcList {
+    RcCons(i32, Rc<RcList>),
+    RcNil,
 }
 
 #[derive(Debug)]
