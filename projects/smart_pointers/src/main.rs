@@ -1,5 +1,6 @@
 use crate::List::{Cons, Nil};
 use crate::RcList::{RcCons, RcNil};
+use crate::RcCList::{RcCCons, RcCNil};
 use std::fmt;
 use std::ops::Deref;
 use std::rc::Rc;
@@ -97,8 +98,31 @@ fn main() {
         println!("a: {}, b: {}, c: {}", a, b, c)
     }
     println!("count after exiting scope: {}", Rc::strong_count(&a));
+
+    // RefCell examples:
+    let value = Rc::new(RefCell::new(5));
+
+    let a = Rc::new(RcCCons(Rc::clone(&value), Rc::new(RcCNil)));
+
+    let b = RcCCons(Rc::new(RefCell::new(3)), Rc::clone(&a));
+    let c = RcCCons(Rc::new(RefCell::new(4)), Rc::clone(&a));
+
+    *value.borrow_mut() += 10;
+
+    println!("a after = {:?}", a);
+    println!("b after = {:?}", b);
+    println!("c after = {:?}", c);    
 }
 
+use std::cell::RefCell;
+
+#[derive(Debug)]
+enum RcCList {
+    RcCCons(Rc<RefCell<i32>>, Rc<RcCList>),
+    RcCNil,
+}
+
+#[derive(Debug)]
 enum RcList {
     RcCons(i32, Rc<RcList>),
     RcNil,
