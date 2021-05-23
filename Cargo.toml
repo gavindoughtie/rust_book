@@ -15,6 +15,7 @@ members = [
     "projects/functional_language_features",
     "projects/more_about_cargo_and_crates",
     "projects/smart_pointers",
+    "projects/fearless_concurrency"
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

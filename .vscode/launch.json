@@ -7,6 +7,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'fearless_concurrency'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=fearless_concurrency",
+          "--package=fearless_concurrency"
+        ],
+        "filter": {
+          "name": "fearless_concurrency",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/fearless_concurrency"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'smart_pointers'",
       "cargo": {
         "args": [
