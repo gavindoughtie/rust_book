@@ -6,6 +6,12 @@ pub struct DraftPost {
     content: String,
 }
 
+/*
+    Add a reject method that changes the post’s state from PendingReview back to Draft.
+    Require two calls to approve before the state can be changed to Published.
+    Allow users to add text content only when a post is in the Draft state.
+*/
+
 impl Post {
     pub fn new() -> DraftPost {
         DraftPost {
@@ -25,19 +31,39 @@ impl DraftPost {
 
     pub fn request_review(self) -> PendingReviewPost {
         PendingReviewPost {
-            content: self.content,
+            content: self.content
         }
     }
 }
 
 pub struct PendingReviewPost {
-    content: String,
+    content: String
+}
+
+pub struct SingleApprovalPost {
+    content: String
 }
 
 impl PendingReviewPost {
+    pub fn approve(self) -> SingleApprovalPost {
+        SingleApprovalPost{content: self.content}
+    }
+
+    pub fn reject(self) -> DraftPost {
+        DraftPost {
+            content: self.content
+        }
+    }
+}
+
+impl SingleApprovalPost {
     pub fn approve(self) -> Post {
-        Post {
-            content: self.content,
+        Post{content: self.content}
+    }
+
+    pub fn reject(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content
         }
     }
 }
@@ -93,13 +119,6 @@ impl State for Published {
     }
 }
 
-/*
-    Add a reject method that changes the post’s state from PendingReview back to Draft.
-    Require two calls to approve before the state can be changed to Published.
-    Allow users to add text content only when a post is in the Draft state.
-        Hint: have the state object responsible for what might change about
-              the content but not responsible for modifying the Post.
-*/
 impl StatefulPost {
     pub fn new() -> Self {
         StatefulPost {

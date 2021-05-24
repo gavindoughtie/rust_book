@@ -22,6 +22,13 @@ fn main() {
     // assert_eq!("", post.content());
 
     let post = post.approve();
+    // post.content isn't available until you have two approvals
+    let post = post.reject();
+    let post = post.approve();
+    // so this won't compile either!
+    // println!("{}", post.content);
+
+    let post = post.approve();
     assert_eq!("I ate a salad for lunch today", post.content());
     println!("post content: {}", post.content());
 }
