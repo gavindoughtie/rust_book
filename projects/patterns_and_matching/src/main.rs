@@ -116,6 +116,120 @@ fn main() {
     print_msg(msg);
     let msg = Message::Write(String::from("Hello world"));
     print_msg(msg);
+    let msg = Message::ChangeColorEnum(Color::Rgb(20, 30, 40));
+    print_msg(msg);
+    let msg = Message::ChangeColorEnum(Color::Hsv(200, 300, 400));
+    print_msg(msg);
+
+    let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
+    println!("feet: {} inches: {}, x: {}, y: {}", feet, inches, x, y);
+    foo(100, 200);
+
+    let mut setting_value = Some(5); // Change to None to set setting_value below
+    let new_setting_value = Some(10);
+
+    match (setting_value, new_setting_value) {
+        (Some(_), Some(_)) => {
+            println!("Can't overwrite an existing customized value");
+        }
+        _ => {
+            setting_value = new_setting_value;
+        }
+    }
+
+    println!("setting is {:?}", setting_value);
+
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, _, third, _, fifth) => {
+            println!("Some numbers: {}, {}, {}", first, third, fifth)
+        }
+    }
+
+    let _x = 5;
+    let y = 10;
+    // Comment out the line below and you'll
+    // only get an unused variable warning for y
+    println!("x: {}, y: {}", _x, y);
+
+    let s = Some(String::from("Hello!"));
+
+    // If you use Some(_s) below, the variable is
+    // bound and takes ownership away from s, so
+    // the next println! using s won't compile.
+    // Some(_) will match, but will not bind.
+    if let Some(_) = s {
+        println!("found a string");
+    }
+
+    println!("{:?}", s);
+
+    let origin = Point3D { x: 0, y: 0, z: 0 };
+    println!("origin: {:?}", origin);
+
+    match origin {
+        Point3D { x, .. } => println!("x is {}", x),
+    }
+
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, .., last) => { // (.., second, ..) would be ambiguous and won't compile
+            println!("Some numbers: {}, {}", first, last);
+        }
+    }
+
+    // Match guard with additional conditional
+    let num = Some(4);
+
+    match num {
+        Some(x) if x < 5 => println!("less than five: {}", x),
+        Some(x) => println!("{}", x),
+        None => (),
+    }
+
+    // Match guard with an outer variable
+    let x = Some(10); // Matches the Some(n) case because 10 == y
+    let y = 10;
+
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(n) if n == y => println!("Matched, n = {}", n),
+        _ => println!("Default case, x = {:?}", x),
+    }
+
+    println!("at the end: x = {:?}, y = {}", x, y);
+
+    // Using the match guard against a literal pattern
+    let x = 4;
+    let y = true;
+
+    match x {
+        4 | 5 | 6 if y => println!("yes"),
+        _ => println!("no"),
+    }
+
+    // Matching with the "@ local_var" operator
+    enum HelloMessage {
+        Hello { id: i32 },
+    }
+
+    let msg = HelloMessage::Hello { id: 11 };
+
+    match msg {
+        HelloMessage::Hello {
+            id: id_variable @ 3..=7,
+        } => println!("Found an id in range: {}", id_variable),
+        HelloMessage::Hello { id: 10..=12 } => {
+            println!("Found an id in another range")
+        }
+        HelloMessage::Hello { id } => println!("Found some other id: {}", id),
+    }
+}
+
+fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {}", y);
 }
 
 fn print_msg(msg: Message) {
@@ -134,7 +248,20 @@ fn print_msg(msg: Message) {
             "Change the color to red {}, green {}, and blue {}",
             r, g, b
         ),
+        Message::ChangeColorEnum(Color::Rgb(r, g, b)) => println!(
+            "Change the color to red {}, green {}, and blue {}",
+            r, g, b
+        ),
+        Message::ChangeColorEnum(Color::Hsv(h, s, v)) => println!(
+            "Change the color to hue {}, saturation {}, and value {}",
+            h, s, v
+        ),
     }
+}
+
+enum Color {
+    Rgb(i32, i32, i32),
+    Hsv(i32, i32, i32),
 }
 
 enum Message {
@@ -142,11 +269,19 @@ enum Message {
     Move { x: i32, y: i32 },
     Write(String),
     ChangeColor(i32, i32, i32),
+    ChangeColorEnum(Color)
 }
 
 struct Point {
     x: i32,
     y: i32,
+}
+
+#[derive(Debug)]
+struct Point3D {
+    x: i32,
+    y: i32,
+    z: i32
 }
 
 fn print_coordinates(&(x, y): &(i32, i32)) {
