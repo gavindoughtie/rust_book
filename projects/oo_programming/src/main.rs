@@ -1,4 +1,5 @@
 use oo_programming::{AveragedCollection, Button, List, Screen};
+use blog::Post;
 
 fn main() {
     let mut ac = AveragedCollection::new();
@@ -11,4 +12,16 @@ fn main() {
     let l1 = Box::new(List{items: vec![String::from("item1")], height: 200, width: 100});
     let screen = Screen{components: vec![b1, l1, b2]};
     screen.run();
+
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("", post.content());
+
+    post.request_review();
+    assert_eq!("", post.content());
+
+    post.approve();
+    assert_eq!("I ate a salad for lunch today", post.content());
+    println!("post content: {}", post.content());
 }

@@ -3,6 +3,11 @@ pub trait Draw {
 }
 
 pub struct Screen {
+  // if the type were, say, Vec<Box<dyn Clone>>,
+  // then this would not be object safe, since
+  // dyn (Trait) effectively erases the type of the
+  // object and Clone uses Self, which has to know
+  // the type at compile time. Maybe.
   pub components: Vec<Box<dyn Draw>>,
 }
 
