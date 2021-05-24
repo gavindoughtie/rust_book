@@ -7,6 +7,23 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'patterns_and_matching'",
+      "cargo": {
+        "args": ["build", "--bin=patterns_and_matching", "--package=patterns_and_matching"],
+        "filter": {
+          "name": "patterns_and_matching",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/patterns_and_matching"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'oo_programming'",
       "cargo": {
         "args": ["build", "--bin=oo_programming", "--package=oo_programming"],
@@ -19,7 +36,7 @@
       "env": {
         "RUST_BACKTRACE": "1"
       },
-      "cwd": "${workspaceFolder}/projects/fearless_concurrency"
+      "cwd": "${workspaceFolder}/projects/oo_programming"
     },
     {
       "type": "lldb",
