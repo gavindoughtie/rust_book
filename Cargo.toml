@@ -18,7 +18,8 @@ members = [
     "projects/fearless_concurrency",
     "projects/oo_programming",
     "projects/blog",
-    "projects/patterns_and_matching"
+    "projects/patterns_and_matching",
+    "projects/advanced_features"
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

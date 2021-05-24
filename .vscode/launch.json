@@ -7,9 +7,34 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'advanced_features'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=advanced_features",
+          "--package=advanced_features"
+        ],
+        "filter": {
+          "name": "advanced_features",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/advanced_features"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'patterns_and_matching'",
       "cargo": {
-        "args": ["build", "--bin=patterns_and_matching", "--package=patterns_and_matching"],
+        "args": [
+          "build",
+          "--bin=patterns_and_matching",
+          "--package=patterns_and_matching"
+        ],
         "filter": {
           "name": "patterns_and_matching",
           "kind": "bin"
