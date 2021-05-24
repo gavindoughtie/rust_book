@@ -7,6 +7,23 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'oo_programming'",
+      "cargo": {
+        "args": ["build", "--bin=oo_programming", "--package=oo_programming"],
+        "filter": {
+          "name": "oo_programming",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/fearless_concurrency"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'fearless_concurrency'",
       "cargo": {
         "args": [
@@ -30,11 +47,7 @@
       "request": "launch",
       "name": "Debug executable 'smart_pointers'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=smart_pointers",
-          "--package=smart_pointers"
-        ],
+        "args": ["build", "--bin=smart_pointers", "--package=smart_pointers"],
         "filter": {
           "name": "smart_pointers",
           "kind": "bin"
