@@ -1,4 +1,48 @@
 pub struct Post {
+    content: String,
+}
+
+pub struct DraftPost {
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> DraftPost {
+        DraftPost {
+            content: String::new(),
+        }
+    }
+
+    pub fn content(&self) -> &str {
+        &self.content
+    }
+}
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
+        }
+    }
+}
+
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
+    pub fn approve(self) -> Post {
+        Post {
+            content: self.content,
+        }
+    }
+}
+
+pub struct StatefulPost {
     state: Option<Box<dyn State>>,
     pub content: String,
 }
@@ -6,7 +50,7 @@ pub struct Post {
 trait State {
     fn request_review(self: Box<Self>) -> Box<dyn State>;
     fn approve(self: Box<Self>) -> Box<dyn State>;
-    fn content<'a>(&self, _post: &'a Post) -> &'a str {
+    fn content<'a>(&self, _post: &'a StatefulPost) -> &'a str {
         ""
     }
 }
@@ -44,7 +88,7 @@ impl State for Published {
         self
     }
 
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
+    fn content<'a>(&self, post: &'a StatefulPost) -> &'a str {
         &post.content
     }
 }
@@ -56,9 +100,9 @@ impl State for Published {
         Hint: have the state object responsible for what might change about
               the content but not responsible for modifying the Post.
 */
-impl Post {
+impl StatefulPost {
     pub fn new() -> Self {
-        Post {
+        StatefulPost {
             content: String::new(),
             state: Some(Box::new(Draft {})),
         }
