@@ -1,6 +1,10 @@
 use std::thread;
 use std::time::Duration;
 use std::sync::mpsc;
+use std::sync::{Arc, Mutex};
+
+// Can't use an Rc across threads (that's what Atomic Reference Count (Arc) is for)
+// use std::rc::Rc;
 
 fn main() {
     let v = vec![1, 2, 3];
@@ -70,4 +74,37 @@ fn main() {
     for received in rx {
         println!("Got: {}", received);
     }
+
+    // Mutexes
+    let m = Mutex::new(5);
+    let n = Mutex::new(String::from("test"));
+    {
+        let mut num = m.lock().unwrap();
+        *num = 6;
+
+        let mut s = n.lock().unwrap();
+        (*s) = String::from("inside the mutex");
+    }
+
+    println!("m = {:?}, n = {:?}", m, n);
+
+
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
 }
