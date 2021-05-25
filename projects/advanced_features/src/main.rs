@@ -58,6 +58,11 @@ fn main() {
     unsafe {
         println!("my_union f1 {}", my_union.f1);
     }
+
+    let bar = Bar::new();
+    for b in bar {
+        println!("b: {}", b)
+    }
 }
 
 #[no_mangle]
@@ -104,4 +109,38 @@ unsafe impl Foo for i32 {
 union MyUnion {
     f1: u32,
     f2: f32,
+}
+
+pub trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+}
+
+struct Bar {
+    things: Vec<String>,
+    index: usize
+}
+
+impl Bar {
+    fn new() -> Bar {
+        Bar {
+            things: vec![String::from("Foo"), String::from("Bar"), String::from("Baz")],
+            index: 0
+        }
+    }
+}
+
+impl std::iter::Iterator for Bar {
+    type Item = String;
+    fn next(&mut self) -> Option<Self::Item> {
+        let result;
+        if self.index < self.things.len() {
+            result = Some(self.things[self.index].clone());
+            self.index = self.index + 1;
+        } else {
+            result = None;
+        }
+        result
+    }
 }
