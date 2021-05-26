@@ -1,4 +1,6 @@
 use std::ops::Add;
+use advanced_features::my_vec;
+use macros::some_name;
 
 #[derive(Debug, PartialEq)]
 struct Point {
@@ -46,7 +48,13 @@ impl Add<Meters> for Millimeters {
     }
 }
 
+
+some_name!();
+
 fn main() {
+    let i = answer();
+    println!("answer() {}", i);
+
     assert_eq!(
         Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
         Point { x: 3, y: 3 }
@@ -149,6 +157,8 @@ fn main() {
     let from_closure = returns_closure();
     println!("from_closure: {}", from_closure(5));
     
+    let my_vector = my_vec![7, 8, 9];
+    println!("my_vector {:?}", my_vector);
 }
 
 // Does not compile:
