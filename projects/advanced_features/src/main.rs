@@ -113,8 +113,41 @@ fn main() {
     println!("A baby dog is called {}", <Dog as Animal>::baby_name());
     let s = "barfoo".to_string(); // String::from("foobar");
     s.outline_print();
-    let wrapped = Wrapper(vec!["thing1".to_string(), "thing2".to_string()]);
-    println!("wrapped: {}", wrapped);
+    let to_wrap = vec!["thing1".to_string(), "thing2".to_string()];
+    println!("wrapped: {}", Wrapper(to_wrap));
+
+    // Advanced types
+
+    // This is a type alias
+    type Kilometers = i32;
+
+    let x: i32 = 5;
+    let y: Kilometers = 5;
+
+    println!("x + y = {}", x + y);
+    let to_wrap = vec!["printable1".to_string(), "printable2".to_string()];
+    printable(Wrapper(to_wrap));
+
+    type Thunk = Box<dyn Fn() + Send + 'static>;
+
+    let f: Thunk = Box::new(|| println!("hi"));
+
+    f();
+}
+
+// trait aliases are experimental:
+// trait DSized = ?Sized + fmt::Display;
+
+// Sized
+pub fn generic<T: ?Sized + fmt::Display>(t: &T) {
+    println!("{}", t);
+}
+
+// Type alias
+type Printable = Wrapper;
+
+fn printable(p: Printable) {
+    println!("printable: {}", p);
 }
 
 use std::fmt;
