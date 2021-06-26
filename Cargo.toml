@@ -23,7 +23,8 @@ members = [
     "projects/macros",
     "projects/macros/pancakes",
     "projects/macros/hello_macro",
-    "projects/macros/hello_macro/hello_macro_derive"
+    "projects/macros/hello_macro/hello_macro_derive",
+    "projects/web_server/hello"
     ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
