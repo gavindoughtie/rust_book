@@ -21,6 +21,7 @@ members = [
     "projects/patterns_and_matching",
     "projects/advanced_features",
     "projects/macros",
+    "projects/macros/pancakes",
     "projects/macros/hello_macro",
     "projects/macros/hello_macro/hello_macro_derive"
     ]
