@@ -1,20 +1,20 @@
 #[derive(PartialEq, Debug)]
-struct Shoe {
+pub struct Shoe {
     size: u32,
     style: String,
 }
 
-fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
-    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
-}
-
 #[derive(Debug)]
-struct Counter {
+pub struct Counter {
     count: u32,
 }
 
+pub fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+}
+
 impl Counter {
-    fn new() -> Counter {
+    pub fn new() -> Counter {
         Counter { count: 0 }
     }
 }
@@ -54,7 +54,7 @@ fn using_other_iterator_trait_methods() {
     assert_eq!(18, sum);
 }
 
-fn zipped_item(item: (u32, u32)) -> u32 {
+pub fn zipped_item(item: (u32, u32)) -> u32 {
     println!("item: {:?}", item);
     item.0 * item.1
 }

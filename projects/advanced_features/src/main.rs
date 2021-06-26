@@ -1,9 +1,5 @@
 use std::ops::Add;
 use advanced_features::my_vec;
-use macros::HelloMacro;
-
-#[derive(HelloMacro)]
-struct Pancakes;
 
 #[derive(Debug, PartialEq)]
 struct Point {
@@ -52,14 +48,7 @@ impl Add<Meters> for Millimeters {
 }
 
 
-some_name!();
-
 fn main() {
-    Pancakes::hello_macro();
-
-    let i = answer();
-    println!("answer() {}", i);
-
     assert_eq!(
         Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
         Point { x: 3, y: 3 }
