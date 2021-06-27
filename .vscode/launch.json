@@ -7,6 +7,27 @@
     {
       "type": "lldb",
       "request": "launch",
+      "name": "Debug executable 'single threaded web server (hello)'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=hello",
+          "--package=hello"
+        ],
+        "filter": {
+          "name": "hello",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "env": {
+        "RUST_BACKTRACE": "1"
+      },
+      "cwd": "${workspaceFolder}/projects/web_server/hello"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
       "name": "Debug executable 'advanced_features'",
       "cargo": {
         "args": [
